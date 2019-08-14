@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CleanArch.Application.Interfaces;
+using CleanArch.Application.ViewModels;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CleanArch.Api.Controllers
 {
@@ -6,6 +8,29 @@ namespace CleanArch.Api.Controllers
     [ApiController]
     public class CourseController : ControllerBase
     {
-       
+        #region Readonly Fields
+
+        private readonly ICourseService _courseService;
+
+        #endregion
+
+        #region Constructor
+
+        public CourseController(ICourseService courseService)
+        {
+            _courseService = courseService;
+        }
+
+        #endregion
+
+        [HttpPost]
+        public IActionResult Post([FromBody]CourseViewModel courseViewModel)
+        {
+
+            _courseService.Create(courseViewModel);
+
+            return Ok(courseViewModel);
+        }
+
     }
 }
